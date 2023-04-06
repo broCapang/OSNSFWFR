@@ -4,7 +4,6 @@
 typedef struct {
     int pid;      // Process ID
     int burst;    // Burst time (in CPU cycles)
-    int arrival;  // Arrival time (in CPU cycles)
 } Process;
 
 int main() {
@@ -17,7 +16,6 @@ int main() {
     for (int i = 0; i < n; i++) {
         printf("Enter the burst time of process %d: ", i+1);
         scanf("%d", &processes[i].burst);
-        processes[i].arrival = i;  // Use process index as arrival time
         processes[i].pid = i+1;
     }
 
@@ -26,7 +24,7 @@ int main() {
     float curr_wait=0;
     float curr_turnaround=0;
     float avg_turnaround=0;
-    printf("\nProcess\tBurst\tArrival\tWaiting\tTurnaround");
+    printf("\nProcess\tBurst\tWaiting\tTurnaround");
     for (int i = 0; i < n; i++) {
         if (i == 0) {
             curr_wait = 0;
@@ -36,7 +34,7 @@ int main() {
         curr_turnaround += processes[i].burst;
         avg_turnaround += curr_turnaround;
         avg_wait += curr_wait;
-        printf("\n%d\t%d\t%d\t%.2f\t%.2f", processes[i].pid, processes[i].burst, processes[i].arrival, curr_wait, curr_turnaround);
+        printf("\n%d\t%d\t%.2f\t%.2f", processes[i].pid, processes[i].burst, curr_wait, curr_turnaround);
     }
     avg_wait /= n;
     avg_turnaround /= n;
