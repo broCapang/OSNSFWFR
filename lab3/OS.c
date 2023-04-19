@@ -14,22 +14,16 @@ typedef struct {
 } file_t;
 
 // function to allocate blocks sequentially
-int allocate_blocks(int num_blocks, int *allocated_blocks, int *free_blocks) {
-    int start_block = -1;
+int allocate_blocks(int num_blocks, int start_block, int *allocated_blocks, int *free_blocks) {
     int i;
 
     // find first free block
-    for (i = 0; i < MAX_BLOCKS; i++) {
-        if (free_blocks[i] == 1) {
-            start_block = i;
-            break;
+    for (i = start_block; i < start_block+num_blocks+1; i++) {
+        if (free_blocks[i] == 0) {
+            return -1;
         }
     }
 
-    // if there are no free blocks, return error
-    if (start_block == -1) {
-        return -1;
-    }
 
     // allocate the requested number of blocks
     for (i = 0; i < num_blocks; i++) {
@@ -80,18 +74,20 @@ void search_file(file_t *files, int num_files, int *allocated_blocks) {
 }
 
 int main() {
-    file_t files[MAX_FILES];                // array to store file information
-    int num_files;                          // number of files in the file system
-    int allocated_blocks[MAX_BLOCKS] = {0}; // array to keep track of allocated blocks
-    int free_blocks[MAX_BLOCKS] = {1};      // array to keep track of free blocks (initialized to all free)
-
+    file_t files[MAX_FILES];
+    int num_files, allocated_blocks[MAX_BLOCKS], free_blocks[MAX_BLOCKS];
     int i;
 
+    // initialize free blocks array
+    for (i = 0; i < MAX_BLOCKS; i++) {
+        free_blocks[i] = 1;
+    }
+
     // get number of files from user
-    printf("Enter the number of files: ");
+    printf("Enter number of files: ");
     scanf("%d", &num_files);
 
-    // get file information from user
+    // get file information from user and allocate blocks for each file
     for (i = 0; i < num_files; i++) {
         printf("Enter information for file %d:\n", i + 1);
         printf("Name: ");
@@ -100,19 +96,37 @@ int main() {
         scanf("%d", &files[i].start_block);
         printf("Number of blocks: ");
         scanf("%d", &files[i].num_blocks);
+        int test = allocate_blocks(files[i].num_blocks,files[i].start_block, allocated_blocks, free_blocks);
+        if (test == -1)
+        {
+            printf("Error: not enough free blocks to allocate file.\n");
+        }
+        
+        // check if there are enough free blocks to allocate the file
+        // int free_block_count = 0;
+        // for (int j = 0; j < MAX_BLOCKS; j++) {
+        //     if (free_blocks[j] == 1) {
+        //         free_block_count++;
+        //         if (free_block_count == files[i].num_blocks) {
+        //             break;
+        //         }
+        //     } else {
+        //         free_block_count = 0;
+        //     }
+        // }
+
+        // if (free_block_count != files[i].num_blocks) {
+        //     printf("Error: not enough free blocks to allocate file.\n");
+        //     return 1;
+        // }
 
         // allocate blocks for file
-        int start_block = allocate_blocks(files[i].num_blocks, allocated_blocks, free_blocks);
-        if (start_block == -1) {
-            printf("Error: not enough free blocks to allocate file.\n");
-            return 1;
-        } else {
-            files[i].start_block = start_block;
-        }
+        // int start_block = allocate_blocks(files[i].num_blocks, allocated_blocks, free_blocks);
+        // files[i].start_block = start_block;
     }
 
     // search for file
     search_file(files, num_files, allocated_blocks);
 
     return 0;
-    }
+}
