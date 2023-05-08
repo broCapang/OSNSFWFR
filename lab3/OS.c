@@ -102,27 +102,6 @@ int main() {
             printf("Error: not enough free blocks to allocate file.\n");
         }
         
-        // check if there are enough free blocks to allocate the file
-        // int free_block_count = 0;
-        // for (int j = 0; j < MAX_BLOCKS; j++) {
-        //     if (free_blocks[j] == 1) {
-        //         free_block_count++;
-        //         if (free_block_count == files[i].num_blocks) {
-        //             break;
-        //         }
-        //     } else {
-        //         free_block_count = 0;
-        //     }
-        // }
-
-        // if (free_block_count != files[i].num_blocks) {
-        //     printf("Error: not enough free blocks to allocate file.\n");
-        //     return 1;
-        // }
-
-        // allocate blocks for file
-        // int start_block = allocate_blocks(files[i].num_blocks, allocated_blocks, free_blocks);
-        // files[i].start_block = start_block;
     }
 
     // search for file
