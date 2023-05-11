@@ -4,7 +4,8 @@ int main() {
     int num_blocks, num_files;
     printf("Enter the number of blocks: ");
     scanf("%d", &num_blocks);
-    
+    printf("Enter the number of files: ");
+    scanf("%d", &num_files);
     int block_sizes[num_blocks];
     printf("Enter the size of the blocks:\n");
     for (int i = 0; i < num_blocks; i++) {
@@ -12,8 +13,7 @@ int main() {
         scanf("%d", &block_sizes[i]);
     }
     
-    printf("Enter the number of files: ");
-    scanf("%d", &num_files);
+
     
     int file_sizes[num_files], allocated_block[num_files];
     int fragment_sizes[num_files];
