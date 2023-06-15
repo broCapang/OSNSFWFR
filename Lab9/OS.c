@@ -7,7 +7,7 @@ void one()
   int pos=0, x, i; 
   printf("\nAllow one philosopher to eat at any time\n"); 
   for(i=0;i<howhung; i++, pos++) { 
-    printf("\nP %d is granted to eat", philname[hu[pos]]); 
+    printf("\nP %d is granted to eat", philname[hu[pos]]);
     for(x=pos;x<howhung;x++) 
       printf("\nP %d is waiting", philname[hu[x]]); 
   } 
@@ -62,7 +62,7 @@ int main()
         status[hu[i]] = 2; 
       }
 do { 
-        printf("\n1.One can eat at a time\t2.Two can eat at a time\t3.Exit\nEnter your choice:"); 
+        printf("\n\nEnter the option\n1.Allow one philosopher to eat at any time\n2.Allow two philosophers to eat at the same time\n3.Exit\n");
         scanf("%d", &cho); 
         switch(cho) { 
           case 1: one(); 
